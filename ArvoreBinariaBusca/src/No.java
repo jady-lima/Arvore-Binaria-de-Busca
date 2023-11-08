@@ -1,21 +1,22 @@
 public class No {
-    private int dado;
+    private int valor;
     private No noEsquerdo = null;
     private No noDireito = null;
+    private int idSimetrico;
 
-    public No(int dado)
+    public No(int valor)
     {
-        this.dado = dado;
+        this.valor = valor;
     }
 
-    public int getDado()
+    public int getValor()
     {
-        return dado;
+        return valor;
     }
 
-    public void setDado(int dado)
+    public void setValor(int valor)
     {
-        this.dado = dado;
+        this.valor = valor;
     }
 
     public No getNoEsquerdo()
@@ -35,5 +36,15 @@ public class No {
 
     public void setNoDireito(No noDireito) {
         this.noDireito = noDireito;
+    }
+
+    public int getIdSimetrico()
+    {
+        return idSimetrico;
+    }
+
+    public void setIdSimetrico(int idSimetrico)
+    {
+        this.idSimetrico = idSimetrico;
     }
 }
