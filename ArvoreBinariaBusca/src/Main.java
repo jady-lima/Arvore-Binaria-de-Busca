@@ -9,10 +9,10 @@ public class Main {
         ABB.inserirNo(70);
         ABB.inserirNo(60);
         ABB.inserirNo(80);
-        ABB.inserirNo(90);
-        ABB.inserirNo(15);
-        ABB.inserirNo(100);
-        ABB.inserirNo(110);
+        //ABB.inserirNo(90);
+        //ABB.inserirNo(15);
+        //ABB.inserirNo(100);
+        //ABB.inserirNo(110);
 
         System.out.println("Impresão da árvore: " + ABB.preOrdem());
 
@@ -33,5 +33,6 @@ public class Main {
         }
 
         System.out.println("Mediana: " + ABB.encontraMediana());
+        System.out.println("Média: " + ABB.calculaMedia(90));
     }
 }

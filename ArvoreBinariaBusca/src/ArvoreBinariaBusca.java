@@ -1,6 +1,8 @@
 public class ArvoreBinariaBusca {
     private No raiz = null;
     private static int idSimetrico = 1;
+    private static int level = 1;
+    private double media = 0;
 
     public void inserirNo(int valor)
     {
@@ -10,8 +12,7 @@ public class ArvoreBinariaBusca {
     private No inserirNo(int valor, No raiz)
     {
         if (raiz == null) {
-            raiz = new No(valor);
-            return raiz;
+            return new No(valor);
         }
 
         if (valor < raiz.getValor()) {
@@ -48,17 +49,14 @@ public class ArvoreBinariaBusca {
 
     private No buscarNo(int n, No raiz)
     {
-        No elemento = null;
-        if (raiz != null) {
-            if (raiz.getIdSimetrico() == n) {
-                elemento = raiz;
-            } else if (raiz.getIdSimetrico() < n) {
-                elemento = buscarNo(n, raiz.getNoDireito());
-            } else if (raiz.getIdSimetrico() > n) {
-                elemento = buscarNo(n, raiz.getNoEsquerdo());
-            }
+        if (raiz == null || n == raiz.getValor()) {
+            return raiz;
+        } else if (raiz.getValor() < n) {
+            return buscarNo(n, raiz.getNoDireito());
+        } else {
+            return buscarNo(n, raiz.getNoEsquerdo());
         }
-        return elemento;
+
     }
 
     public int buscarElemento(int n)
@@ -89,7 +87,7 @@ public class ArvoreBinariaBusca {
     private int buscarPosicao(int n, No raiz)
     {
         int elemento = 0;
-        if ((raiz != null)) {
+        if (raiz != null) {
             if (raiz.getValor() == n) {
                 elemento = raiz.getIdSimetrico();
             } else if (raiz.getValor() < n) {
@@ -112,7 +110,17 @@ public class ArvoreBinariaBusca {
 
     public double calculaMedia(int n)
     {
-        No elemento = buscarNo(n);
+        return calculaMedia(n, buscarNo(n));
+    }
+
+    public double calculaMedia(int n, No raiz)
+    {
+        if (raiz != null) {
+            calculaMedia(raiz.getValor(), raiz.getNoEsquerdo());
+            media += raiz.getValor();
+            calculaMedia(raiz.getValor(), raiz.getNoDireito());
+        }
+        return media;
     }
 
     public String preOrdem()
