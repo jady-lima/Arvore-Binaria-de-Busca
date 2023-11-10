@@ -1,7 +1,7 @@
 public class ArvoreBinariaBusca {
     private No raiz = null;
-    private static int idSimetrico = 1;
-    private double media = 0, soma = 0;
+    private static int idSimetrico;
+    private double soma = 0, totalElementos = 0;
 
     public void inserirNo(int valor)
     {
@@ -28,7 +28,9 @@ public class ArvoreBinariaBusca {
 
     public void removerNo(int valor)
     {
-        removerNo(valor, raiz);
+        if (removerNo(valor, raiz) != null) {
+            System.out.println(valor + " removido");
+        }
     }
 
     public No removerNo(int valor, No raiz)
@@ -39,43 +41,43 @@ public class ArvoreBinariaBusca {
             } else if (valor > raiz.getValor()) {
                 raiz.setNoDireito(removerNo(valor, raiz.getNoDireito()));
             } else {
-                if (raiz == buscarNo(valor)) {
-                    if (raiz.getNoEsquerdo() == null) {
-                        return raiz.getNoDireito();
-                    } else if (raiz.getNoDireito() == null) {
-                        return raiz.getNoEsquerdo();
-                    }
-                    raiz.setValor(encontrarMenor(raiz.getNoDireito()).getValor());
-                    raiz.setNoDireito(removerNo(raiz.getValor(), raiz.getNoDireito()));
-                } else {
-                    System.out.println(valor + " não está na árvore, não pode ser removido");
+                if (raiz.getNoEsquerdo() == null) {
+                    return raiz.getNoDireito();
+                } else if (raiz.getNoDireito() == null) {
+                    return raiz.getNoEsquerdo();
                 }
+
+                No maiorNo = encontrarMaior(raiz.getNoEsquerdo());
+                raiz.setValor(maiorNo.getValor());
+                raiz.setNoEsquerdo(removerNo(maiorNo.getValor(), raiz.getNoEsquerdo()));
             }
+        } else {
+            System.out.println(valor + " não está na árvore, não pode ser removido");
         }
         return raiz;
     }
 
-    public No encontrarNoDireito(No raiz)
+    public No encontrarNoEsquerdo(No raiz)
     {
-        while (raiz.getNoDireito() != null) {
-            raiz = raiz.getNoDireito();
+        while (raiz.getNoEsquerdo() != null) {
+            raiz = raiz.getNoEsquerdo();
         }
         return raiz;
     }
 
-    private No encontrarMenor(No raiz)
+    private No encontrarMaior(No raiz)
     {
         if (raiz == null) {
             return null;
-        } if (raiz.getNoEsquerdo() != null) {
-            return encontrarNoDireito(raiz.getNoEsquerdo());
+        } if (raiz.getNoDireito() != null) {
+            return encontrarNoEsquerdo(raiz.getNoDireito());
         } else {
-            No menor = raiz.getPredecessor();
-            while (menor != null && raiz == menor.getNoEsquerdo()) {
-                raiz = menor;
-                menor = menor.getPredecessor();
+            No sucessor = raiz.getSucessor();
+            while (sucessor != null && raiz == sucessor.getNoDireito()) {
+                raiz = sucessor;
+                sucessor = sucessor.getSucessor();
             }
-            return menor;
+            return sucessor;
         }
     }
 
@@ -92,6 +94,7 @@ public class ArvoreBinariaBusca {
 
     public void inserirNivelId()
     {
+        idSimetrico = 0;
         for (int i = 0; i <= alturaArvore(raiz); i++) {
             inserirNivel(raiz, i);
         }
@@ -102,8 +105,8 @@ public class ArvoreBinariaBusca {
     {
         if (raiz != null) {
             inserirID(raiz.getNoEsquerdo());
-            raiz.setIdSimetrico(idSimetrico);
             idSimetrico++;
+            raiz.setIdSimetrico(idSimetrico);
             inserirID(raiz.getNoDireito());
         }
     }
@@ -164,45 +167,50 @@ public class ArvoreBinariaBusca {
 
     private int buscarPosicao(int n, No raiz)
     {
-        int elemento = 0;
         if (raiz != null) {
             if (raiz.getValor() == n) {
-                elemento = raiz.getIdSimetrico();
+                return raiz.getIdSimetrico();
             } else if (raiz.getValor() < n) {
-                elemento = buscarPosicao(n, raiz.getNoDireito());
-            } else if (raiz.getValor() > n) {
-                elemento = buscarPosicao(n, raiz.getNoEsquerdo());
+                return buscarPosicao(n, raiz.getNoDireito());
+            } else {
+                return buscarPosicao(n, raiz.getNoEsquerdo());
             }
+        } else {
+            return 0;
         }
-        return elemento;
     }
 
     public int encontraMediana()
     {
+        int mediana = (idSimetrico - 1) / 2;
+
         if ((idSimetrico - 1) % 2 != 0) {
-            return buscarElemento(((idSimetrico - 1) / 2 ) + 1);
+            return buscarElemento(mediana + 1);
         } else {
-            return buscarElemento(((idSimetrico - 1) / 2 ));
+            return (buscarElemento(mediana) + buscarElemento(mediana + 1)) / 2;
         }
     }
 
     public double calculaMedia(int n)
     {
-        return calculaMedia(n, buscarNo(n));
+        soma = 0;
+        totalElementos = 0;
+        calculaMedia(raiz);
+
+        if (totalElementos > 0) {
+            return soma / totalElementos;
+        }
+        return 0;
     }
 
-    private double calculaMedia(int n, No raiz)
+    private void calculaMedia(No raiz)
     {
-        if (raiz == null) {
-            return 0;
+        if (raiz != null) {
+            calculaMedia(raiz.getNoEsquerdo());
+            soma += raiz.getValor();
+            totalElementos++;
+            calculaMedia(raiz.getNoDireito());
         }
-
-        calculaMedia(raiz.getValor(), raiz.getNoEsquerdo());
-        media += raiz.getValor();
-        soma++;
-        calculaMedia(raiz.getValor(), raiz.getNoDireito());
-
-        return media/soma;
     }
 
     public boolean arvoreCheia()

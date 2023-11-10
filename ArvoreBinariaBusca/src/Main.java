@@ -15,7 +15,6 @@ public class Main {
 
         ArrayList<String> comandos = arquivo.recebeComandos();
         for (int i = 0; i < comandos.size(); i++) {
-            //System.out.println(comandos.get(i));
 
             if (comandos.get(i).equals("CHEIA")) {
                 if (ABB.arvoreCheia()) {
@@ -54,7 +53,6 @@ public class Main {
 
                 else if (com[0].equals("REMOVA")) {
                     ABB.removerNo(Integer.parseInt(com[1]));
-                    System.out.println(com[1] + " removido");
                     ABB.inserirNivelId();
                 }
 
@@ -68,8 +66,8 @@ public class Main {
                 }
 
                 else if (com[0].equals("BUSCAR")) {
-                    int n = ABB.buscarElemento(Integer.parseInt(com[1]));
-                    if (n == 0) {
+                    No n = ABB.buscarNo(Integer.parseInt(com[1]));
+                    if (n == null) {
                         System.out.println("Chave não encontrada");
                     } else {
                         System.out.println("Chave encontrada");
@@ -77,7 +75,7 @@ public class Main {
                 }
 
                 else if (com[0].equals("POSICAO")) {
-                    System.out.println(ABB.buscarElemento(Integer.parseInt(com[1])));
+                    System.out.println(ABB.buscarPosicao(Integer.parseInt(com[1])));
                 }
 
                 else {

@@ -4,7 +4,7 @@ public class No {
     private No noDireito = null;
     private int idSimetrico;
     private int nivel;
-    private No predecessor;
+    private No sucessor;
 
     public No(int valor)
     {
@@ -60,13 +60,13 @@ public class No {
         this.nivel = nivel;
     }
 
-    public No getPredecessor()
+    public No getSucessor()
     {
-        return predecessor;
+        return sucessor;
     }
 
-    public void setPredecessor(No predecessor)
+    public void setSucessor(No sucessor)
     {
-        this.predecessor = predecessor;
+        this.sucessor = sucessor;
     }
 }
