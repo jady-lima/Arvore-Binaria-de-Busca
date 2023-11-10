@@ -1,38 +1,89 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
         ArvoreBinariaBusca ABB = new ArvoreBinariaBusca();
+        Arquivo arquivo = new Arquivo();
 
-        ABB.inserirNo(50);
-        ABB.inserirNo(30);
-        ABB.inserirNo(20);
-        ABB.inserirNo(40);
-        ABB.inserirNo(70);
-        ABB.inserirNo(60);
-        ABB.inserirNo(80);
-        //ABB.inserirNo(90);
-        //ABB.inserirNo(15);
-        //ABB.inserirNo(100);
-        //ABB.inserirNo(110);
+        String elementos[] = arquivo.recebeElementos().split(" ");
 
-        System.out.println("Impresão da árvore: " + ABB.preOrdem());
-
-        ABB.inserirID();
-
-        int elemento = ABB.buscarElemento(5);
-        if (elemento == 0) {
-            System.out.println("Elemento não está na árvore");
-        } else {
-            System.out.println("Elemento de valor: " + elemento);
+        for (int i = 0; i < elementos.length; i++) {
+            ABB.inserirNo(Integer.parseInt(elementos[i]));
         }
 
-        elemento = ABB.buscarPosicao(30);
-        if (elemento == 0) {
-            System.out.println("Elemento não está na árvore");
-        } else {
-            System.out.println("Elemento na posição: " + elemento);
-        }
+        ABB.inserirNivelId();
 
-        System.out.println("Mediana: " + ABB.encontraMediana());
-        System.out.println("Média: " + ABB.calculaMedia(90));
+        ArrayList<String> comandos = arquivo.recebeComandos();
+        for (int i = 0; i < comandos.size(); i++) {
+            //System.out.println(comandos.get(i));
+
+            if (comandos.get(i).equals("CHEIA")) {
+                if (ABB.arvoreCheia()) {
+                    System.out.println("A árvore é cheia");
+                } else {
+                    System.out.println("A árvore não é cheia");
+                }
+            }
+
+            else if (comandos.get(i).equals("COMPLETA")) {
+                if (ABB.arvoreCompleta()) {
+                    System.out.println("A árvore é completa");
+                } else {
+                    System.out.println("A árvore não é completa");
+                }
+            }
+
+            else if (comandos.get(i).equals("PREORDEM")) {
+                System.out.println(ABB.preOrdem());
+            }
+
+            else if (comandos.get(i).equals("MEDIANA")) {
+                System.out.println(ABB.encontraMediana());
+            }
+
+            else {
+                String com[] = comandos.get(i).split(" ");
+
+                if (com[0].equals("ENESIMO")) {
+                    System.out.println(ABB.buscarElemento(Integer.parseInt(com[1])));
+                }
+
+                else if (com[0].equals("IMPRIMA")) {
+                    ABB.imprimeArvore(Integer.parseInt(com[1]));
+                }
+
+                else if (com[0].equals("REMOVA")) {
+                    ABB.removerNo(Integer.parseInt(com[1]));
+                    System.out.println(com[1] + " removido");
+                    ABB.inserirNivelId();
+                }
+
+                else if (com[0].equals("INSIRA")) {
+                    ABB.inserirNo(Integer.parseInt(com[1]));
+                    ABB.inserirNivelId();
+                }
+
+                else if (com[0].equals("MEDIA")) {
+                    System.out.println(ABB.calculaMedia(Integer.parseInt(com[1])));
+                }
+
+                else if (com[0].equals("BUSCAR")) {
+                    int n = ABB.buscarElemento(Integer.parseInt(com[1]));
+                    if (n == 0) {
+                        System.out.println("Chave não encontrada");
+                    } else {
+                        System.out.println("Chave encontrada");
+                    }
+                }
+
+                else if (com[0].equals("POSICAO")) {
+                    System.out.println(ABB.buscarElemento(Integer.parseInt(com[1])));
+                }
+
+                else {
+                    System.out.print("Comando não existe.");
+                }
+            }
+        }
     }
 }

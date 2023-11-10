@@ -3,6 +3,8 @@ public class No {
     private No noEsquerdo = null;
     private No noDireito = null;
     private int idSimetrico;
+    private int nivel;
+    private No predecessor;
 
     public No(int valor)
     {
@@ -46,5 +48,25 @@ public class No {
     public void setIdSimetrico(int idSimetrico)
     {
         this.idSimetrico = idSimetrico;
+    }
+
+    public int getNivel()
+    {
+        return nivel;
+    }
+
+    public void setNivel(int nivel)
+    {
+        this.nivel = nivel;
+    }
+
+    public No getPredecessor()
+    {
+        return predecessor;
+    }
+
+    public void setPredecessor(No predecessor)
+    {
+        this.predecessor = predecessor;
     }
 }
